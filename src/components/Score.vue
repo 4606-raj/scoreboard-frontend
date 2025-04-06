@@ -14,7 +14,7 @@ export default {
     name: 'Score',
     props: {
         team: {
-            type: String,
+            type: Object,
             required: true
         },
     },

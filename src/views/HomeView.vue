@@ -28,49 +28,47 @@
 
 </template>
 
-<script>
+<script setup>
+  import { inject, reactive } from 'vue';
+  import { useMatchStore } from '@/stores/useMatchStore';
   import Score from '../components/Score.vue';
   import Bar from '../components/Bar.vue';
   import Timer from '../components/Timer.vue';
 
-  export default {
-    components: {
-      Score,
-      Bar,
-      Timer
-    },
-    data() {
-      return {
-        bars: [
-          { id: 2, color: '#fff' },
-          { id: 3, color: '#5bc0de' },
-          { id: 4, color: '#5cb85c' },
-          { id: 5, color: '#f0ad4e' },
-          { id: 1, color: '#d9534f' },
-        ],
-        teams: [
-          { id: 1, name: 'Team A', score: 0, color: '#5bc0de' },
-          { id: 2, name: 'Team B', score: 0, color: '#5cb85c' },
-        ],
-      };
-    },
-    methods: {
-      increment(teamId) {
-        this.teams.forEach(t => {
-          if (t.id === teamId) {
-            t.score++;
-          }
-        });
-      },
-      decrement(teamId) {
-        this.teams.forEach(t => {
-          if (t.id === teamId) {
-            if (t.score > 0) {
-              t.score--;
-            }
-          }
-        });
+  const store = useMatchStore();
+  // store.fetchMatch();
+  const match = store.getSelectedMatch;
+  console.log(match);
+  
+
+  const bars = reactive([
+    { id: 2, color: '#fff' },
+    { id: 3, color: '#5bc0de' },
+    { id: 4, color: '#5cb85c' },
+    { id: 5, color: '#f0ad4e' },
+    { id: 1, color: '#d9534f' },
+  ]);
+
+  const teams = reactive([
+    { id: 1, name: 'Team A', score: 0, color: '#5bc0de' },
+    { id: 2, name: 'Team B', score: 0, color: '#5cb85c' },
+  ]);
+
+  function increment(teamId) {
+    teams.forEach(t => {
+      if (t.id === teamId) {
+        t.score++;
       }
-    }
-  };
+    });
+  }
+
+  function decrement(teamId) {
+    teams.forEach(t => {
+      if (t.id === teamId) {
+        if (t.score > 0) {
+          t.score--;
+        }
+      }
+    });
+  }
 </script>
