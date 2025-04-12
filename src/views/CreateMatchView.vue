@@ -4,6 +4,7 @@
         <form class="w-25" @submit.prevent="save">
 
             <Input type="text" placeholder="Match Name" v-model:value="matchName" />
+            <Input type="text" placeholder="Match Organizer Name" v-model:value="matchOrganizer" />
             <Input type="file" placeholder="Match Logo" @change="onFileChange" />
             
             <hr />
@@ -13,12 +14,12 @@
             <div class="row">
                 <div class="col-6">
                 <Input type="text" placeholder="First Team's Name" v-model:value="firstTeamName" />
-                <Input type="color" placeholder="Team Color" v-model:value="firstTeamColor" />
+                <Input type="color" placeholder="Team Color" v-model:value="firstTeamColor" value="#ff0000" />
             </div>
             
             <div class="col-6">
                 <Input type="text" placeholder="Second Team's Name" v-model:value="secondTeamName" />
-                <Input type="color" placeholder="Team Color" v-model:value="secondTeamColor" />
+                <Input type="color" placeholder="Team Color" v-model:value="secondTeamColor" value="#0000ff" />
             </div>
             </div>
 
@@ -41,6 +42,7 @@
     const secondTeamName = ref('');
     const firstTeamColor = ref('');
     const secondTeamColor = ref('');
+    const matchOrganizer = ref('');
 
     function onFileChange(event) {
         const file = event.target.files[0];
@@ -58,6 +60,7 @@
         formData.append('name', matchName.value);
         formData.append('logo', matchLogo.value);
         formData.append('firstTeamName', firstTeamName.value);
+        formData.append('organizer', matchOrganizer.value);
         formData.append('secondTeamName', secondTeamName.value);
         formData.append('firstTeamColor', firstTeamColor.value);
         formData.append('secondTeamColor', secondTeamColor.value);

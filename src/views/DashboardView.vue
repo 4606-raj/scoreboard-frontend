@@ -11,6 +11,7 @@
             <thead>
                 <tr>
                     <th>Match Name</th>
+                    <th>Match Organizer</th>
                     <th>Match Logo</th>
                     <th>First Team Name</th>
                     <th>Second Team Name</th>
@@ -20,9 +21,10 @@
             <tbody>
                 <tr v-for="match in matches" :key="match.id">
                     <td>{{ match.name }}</td>
-                    <td><img :src="match.logo" alt="Match Logo" width="100px" /></td>
-                    <td>{{ match?.teams[0]?.name }}</td>
-                    <td>{{ match?.teams[1]?.name }}</td>
+                    <td>{{ match?.organizer }}</td>
+                    <td><img :src="match.logo? match.logo: logo" alt="Match Logo" width="100px" /></td>
+                    <td>{{ match?.teams[0]?.name }} <br> <span class="text-danger">({{ match?.teams[0]?.score }})</span></td>
+                    <td>{{ match?.teams[1]?.name }}<br> <span class="text-danger">({{ match?.teams[0]?.score }})</span></td>
                     <td>
                         <RouterLink :to="{ name: 'scoreboard', params: { id: match?.id? match?.id: 0, admin: '1' } }" class="btn btn-primary">Scoreboard</RouterLink>
                     </td>
@@ -38,6 +40,7 @@ import { ref, onMounted } from 'vue';
 import { RouterLink } from 'vue-router';
 import { computed } from 'vue';
 import { useMatchStore } from '../stores/useMatchStore';
+import logo from '@/assets/logo.png';
 
 onMounted(async () => {
     await matchStore.fetchMatches();

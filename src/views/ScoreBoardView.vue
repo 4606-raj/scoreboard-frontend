@@ -1,12 +1,16 @@
 <template>
 
-  <div v-if="!isGuest" class="col-12 d-flex justify-content-end p-4">
-    <!-- <div>
+  <div v-if="!isGuest" class="col-12 d-flex justify-content-between p-4">
+    <div>
       <RouterLink :to="{ name: 'dashboard' }" class="btn btn-primary mx-4">Dashboard</RouterLink>
-      <RouterLink :to="{ name: 'scoreboard', params: { id: match?.id ? match?.id : 0, admin: '0' } }" class="btn btn-primary mx-4" target="_blank">Open Guest</RouterLink>
-      <button v-if="!isGuest" @click="logout" class="btn btn-danger">Logout</button>
-    </div> -->
+      <!-- <RouterLink :to="{ name: 'scoreboard', params: { id: match?.id ? match?.id : 0, admin: '0' } }" class="btn btn-primary mx-4" target="_blank">Open Guest</RouterLink> -->
+      <!-- <button v-if="!isGuest" @click="logout" class="btn btn-danger">Logout</button> -->
+    </div>
     <button v-if="!isGuest" @click="update" class="btn btn-success">Update</button>
+  </div>
+
+  <div>
+    <h1>{{ match?.organizer }}</h1>
   </div>
 
   <div class="m-4">
@@ -17,21 +21,65 @@
   <h1>{{ match?.name }}</h1>
 
   <div class="scoreboard d-flex justify-content-between col-12">
-    <div v-for="team in match?.teams" class="col-6 d-flex justify-content-center" :key="team.id">
+    <div v-for="(team, index) in match?.teams" class="col-6 d-flex justify-content-evenly" :key="team.id">
       
-      <div v-if="!isGuest" class="d-flex flex-column justify-content-center align-items-center">
-        <button class="btn" :style="{ backgroundColor: team.color }" @click="decrement(team.id, 2)">-2</button>
-        <button class="btn m-2" :style="{ backgroundColor: team.color }" @click="decrement(team.id, 3)">-3</button>
+      <div v-if="!isGuest && index !== 0" class="d-flex flex-column justify-content-around">
+        <button class="btn p-4" :style="{ backgroundColor: team.color }" @click="decrement(team.id, 2)">-2</button>
+        <button class="btn p-4" :style="{ backgroundColor: team.color }" @click="decrement(team.id, 3)">-3</button>
+      </div>
+
+      <div v-if="!isGuest && index === 0" class="d-flex flex-column justify-content-around">
+        <button class="btn p-4" :style="{ backgroundColor: team.color }" @click="increment(team.id, 2)">+2</button>
+        <button class="btn p-4" :style="{ backgroundColor: team.color }" @click="increment(team.id, 3)">+3</button>
       </div>
 
       <Score :team="team" @increment="increment" @decrement="decrement" :isGuest="isGuest" />
       
-      <div v-if="!isGuest" class="d-flex flex-column justify-content-center align-items-center">
-        <button class="btn" :style="{ backgroundColor: team.color }" @click="increment(team.id, 2)">+2</button>
-        <button class="btn m-2" :style="{ backgroundColor: team.color }" @click="increment(team.id, 3)">+3</button>
+      <div v-if="!isGuest && index !== 0" class="d-flex flex-column justify-content-around">
+        <button class="btn p-4" :style="{ backgroundColor: team.color }" @click="increment(team.id, 2)">+2</button>
+        <button class="btn p-4" :style="{ backgroundColor: team.color }" @click="increment(team.id, 3)">+3</button>
+      </div>
+
+      <div v-if="!isGuest && index === 0" class="d-flex flex-column justify-content-around">
+        <button class="btn p-4" :style="{ backgroundColor: team.color }" @click="decrement(team.id, 2)">-2</button>
+        <button class="btn p-4" :style="{ backgroundColor: team.color }" @click="decrement(team.id, 3)">-3</button>
       </div>
 
     </div>
+  </div>
+
+  <div class="scoreboard d-flex justify-content-between col-12">
+    <!-- <div class="col-6 d-flex justify-content-evenly">
+      
+      <div v-if="!isGuest" class="d-flex flex-column justify-content-around">
+        <button class="btn p-4" :style="{ backgroundColor: match?.teams[0]?.color }" @click="decrement(match?.teams[0]?.id, 2)">-2</button>
+        <button class="btn p-4" :style="{ backgroundColor: match?.teams[0]?.color }" @click="decrement(match?.teams[0]?.id, 3)">-3</button>
+      </div>
+
+      <Score :team="team" @increment="increment" @decrement="decrement" :isGuest="isGuest" />
+      
+      <div v-if="!isGuest" class="d-flex flex-column justify-content-around">
+        <button class="btn p-4" :style="{ backgroundColor: match?.teams[0]?.color }" @click="increment(match?.teams[0]?.id, 2)">+2</button>
+        <button class="btn p-4" :style="{ backgroundColor: match?.teams[0]?.color }" @click="increment(match?.teams[0]?.id, 3)">+3</button>
+      </div>
+
+    </div> -->
+
+    <!-- <div class="col-6 d-flex justify-content-evenly">
+      
+      <div v-if="!isGuest" class="d-flex flex-column justify-content-around">
+        <button class="btn p-4" :style="{ backgroundColor: secondTeam?.color }" @click="decrement(secondTeam?.id, 2)">-2</button>
+        <button class="btn p-4" :style="{ backgroundColor: secondTeam?.color }" @click="decrement(secondTeam?.id, 3)">-3</button>
+      </div>
+
+      <Score :team="team" @increment="increment" @decrement="decrement" :isGuest="isGuest" />
+      
+      <div v-if="!isGuest" class="d-flex flex-column justify-content-around">
+        <button class="btn p-4" :style="{ backgroundColor: secondTeam?.color }" @click="increment(secondTeam?.id, 2)">+2</button>
+        <button class="btn p-4" :style="{ backgroundColor: secondTeam?.color }" @click="increment(secondTeam?.id, 3)">+3</button>
+      </div>
+
+    </div> -->
   </div>
 
   <div :class="['d-flex', 'justify-content-center', 'gap-2']">
@@ -82,12 +130,19 @@
 
   const match = computed(() => store.getSelectedMatch);
 
+  const firstTeam = computed(() => {
+    return match?.value?.teams[0];
+  });
+  const secondTeam = computed(() => {
+    return match?.value?.teams[1];
+  });
+
   const bars = reactive([
     { id: 1, color: '#fff' },
-    { id: 2, color: '#5bc0de' },
-    { id: 3, color: '#5cb85c' },
-    { id: 4, color: '#f0ad4e' },
-    { id: 5, color: '#d9534f' },
+    { id: 2, color: '#00FFFF' },
+    { id: 3, color: '#00FF00' },
+    { id: 4, color: '#FFFF00' },
+    { id: 5, color: '#ff0000' },
   ]);
 
   function increment(teamId, count = 1) {
