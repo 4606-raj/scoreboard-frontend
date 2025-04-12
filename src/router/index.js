@@ -23,6 +23,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
+      component: LoginView,
       beforeEnter: (to, from, next) => {
         if (checkAuth()) {
           next('/dashboard');
