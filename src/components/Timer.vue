@@ -1,12 +1,19 @@
 <template>
     <div class="timer">{{ timer }}</div>
 
-    <button @click="startTimer" class="btn btn-secondary mt-4">{{isRunning ? 'Stop' : 'Start'}}</button>
+    <button v-if="!isGuest" @click="startTimer" class="btn btn-secondary mt-4">{{isRunning ? 'Stop' : 'Start'}}</button>
 </template>
 
 <script>
 export default {
     name: 'Timer',
+
+    props: {
+        isGuest: {
+            type: Boolean,
+            default: false
+        }
+    },
 
     data() {
         return {

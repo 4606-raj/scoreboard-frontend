@@ -2,9 +2,13 @@
     <div class="team">
         <h2>{{ team.name }}</h2>
         <div :class="['score', 'col-12', 'd-flex', 'justify-content-between', 'align-items-center']" :style="style">
-            <button @click="decrement" class="left-overlay col-2">-</button>
-            <span>{{ team.score }}</span>
-            <button @click="increment" class="right-overlay col-2">+</button>
+            
+            <button v-if="!isGuest" @click="decrement" class="left-overlay col-2">-</button>
+            <span v-if="isGuest"></span>
+
+            <span>{{ team.score ?? 0 }}</span>
+            <button v-if="!isGuest" @click="increment" class="right-overlay col-2">+</button>
+            <span v-if="isGuest"></span>
         </div>
     </div>
 </template>
@@ -17,6 +21,10 @@ export default {
             type: Object,
             required: true
         },
+        isGuest: {
+            type: Boolean,
+            default: false
+        }
     },
     data() {
         return {
@@ -31,7 +39,7 @@ export default {
         },
         decrement() {
             this.$emit('decrement', this.team.id);
-        }
+        },
     },
 }
 </script>

@@ -1,7 +1,9 @@
 import axios from "axios";
+import { toast } from 'vue3-toastify';
+  import 'vue3-toastify/dist/index.css';
 
 const api = axios.create({
-  baseURL: "http://127.0.0.1:3000/", // Replace with your API URL
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   timeout: 10000, // Request timeout (optional)
   headers: {
     "Content-Type": "application/json",
@@ -23,10 +25,29 @@ api.interceptors.request.use(
 
 // Add a response interceptor
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    if(response.status === 200 && response.config.method != 'get') {
+      toast.success("Request successful!", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+    return response
+  },
   (error) => {
     // Handle errors globally
     console.error("API Error:", error);
+
+    if(error.response.status === 401) {
+      window.localStorage.removeItem('token');
+      window.location.href = '/login';
+    }
+    
     return Promise.reject(error);
   }
 );

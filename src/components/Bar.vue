@@ -8,6 +8,14 @@ export default {
         bg: {
             type: String,
             required: true
+        },
+        teamId: {
+            type: Number,
+            required: true
+        },
+        isGuest: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -24,12 +32,16 @@ export default {
     },
     methods: {
         select() {
+            if (this.isGuest) {
+                return;
+            }
             this.selected = !this.selected;
             if (this.selected) {
                 this.barStyle.boxShadow = '0 0 10px 5px' + this.bg;
             } else {
                 this.barStyle.boxShadow = 'none';
             }
+            this.$emit('warning', this.teamId, this.bg);
         }
     },
 };
