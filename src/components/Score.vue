@@ -1,6 +1,6 @@
 <template>
     <div class="team">
-        <h2>{{ team.name }}</h2>
+        <p style="font-size: 3rem;">{{ team.name }}</p>
         <div :class="['score', 'col-12', 'd-flex', 'justify-content-between', 'align-items-center']" :style="style">
             
             <button v-if="!isGuest" @click="decrement" class="left-overlay col-2">-</button>

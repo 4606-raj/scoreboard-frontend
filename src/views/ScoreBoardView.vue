@@ -10,7 +10,7 @@
   </div>
 
   <div>
-    <h1>{{ match?.organizer }}</h1>
+    <p style="font-size: 3.5rem;">{{ match?.organizer }}</p>
   </div>
 
   <div class="m-4">
@@ -82,12 +82,12 @@
     </div> -->
   </div>
 
-  <div :class="['d-flex', 'justify-content-center', 'gap-2']">
+  <div :class="['d-flex', 'justify-content-center', 'align-items-center', 'gap-2']">
       <div v-for="bar in bars" :key="bar.id" class="col-1">
         <Bar :bg=bar.color :teamId="match?.teams[0]?.id" @warning="warning" :isGuest="isGuest" />
       </div>
 
-    <div class="number" style="font-family: dseg7classic; font-size: 45px;">4</div>
+    <div class="number" style="font-family: dseg7classic; font-size: 45px;">|</div>
   
       <div v-for="bar in bars" :key="bar.id" class="col-1">
         <Bar :bg=bar.color :teamId="match?.teams[1]?.id" @warning="warning" :isGuest="isGuest" />
