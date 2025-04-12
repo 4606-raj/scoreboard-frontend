@@ -2,6 +2,7 @@
     <div class="container d-flex flex-column align-items-center vh-100 mt-5">
         
         <div class="d-flex justify-content-between align-items-center w-100 mb-4">
+            <button v-if="!isGuest" @click="logout" class="btn btn-danger">Logout</button>
             <h1 class="mb-4">Total Matches</h1>
             <RouterLink to="/create-match" class="btn btn-primary mb-4">Create Match</RouterLink>
         </div>
@@ -45,6 +46,14 @@ onMounted(async () => {
 const matchStore = useMatchStore();
 
 const matches = computed(() => matchStore.getMatches);
+
+function logout() {
+    if (!confirm('Are you sure you want to log out?')) {
+      return;
+    }
+    window.localStorage.removeItem('token');
+    window.location.href = '/login';
+  }
 
 
 </script>

@@ -21,6 +21,16 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/',
+      name: 'home',
+      beforeEnter: (to, from, next) => {
+        if (checkAuth()) {
+          next('/dashboard');
+        }
+        next();
+      }
+    },
+    {
       path: '/scoreboard/:id/:admin',
       name: 'scoreboard',
       component: ScoreBoardView,
